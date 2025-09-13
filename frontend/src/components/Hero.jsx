@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Play, Star, Users, BookOpen } from 'lucide-react';
-import { stats } from '../data/mock';
+import { useStats } from '../hooks/useStats';
 
 const Hero = () => {
+  const { stats, loading, error } = useStats();
+
   return (
     <section className="hero-section">
       <div className="hero-content">
@@ -33,30 +35,36 @@ const Hero = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
           <div className="text-center">
             <div className="heading-3 text-[var(--accent-text)]">
-              {stats.totalStudents.toLocaleString()}+
+              {loading ? "..." : `${stats.total_students.toLocaleString()}+`}
             </div>
             <div className="body-small">Students</div>
           </div>
           <div className="text-center">
             <div className="heading-3 text-[var(--accent-text)]">
-              {stats.totalCourses}+
+              {loading ? "..." : `${stats.total_courses}+`}
             </div>
             <div className="body-small">Courses</div>
           </div>
           <div className="text-center">
             <div className="heading-3 text-[var(--accent-text)]">
-              {stats.satisfactionRate}%
+              {loading ? "..." : `${stats.satisfaction_rate}%`}
             </div>
             <div className="body-small">Satisfaction</div>
           </div>
           <div className="text-center">
             <div className="heading-3 text-[var(--accent-text)] flex items-center justify-center gap-1">
-              {stats.avgRating}
+              {loading ? "..." : stats.avg_rating}
               <Star className="w-4 h-4 fill-current" />
             </div>
             <div className="body-small">Average Rating</div>
           </div>
         </div>
+
+        {error && (
+          <div className="mt-4 text-center text-red-500 body-small">
+            {error}
+          </div>
+        )}
       </div>
     </section>
   );
