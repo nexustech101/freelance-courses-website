@@ -1,8 +1,10 @@
 import React from 'react';
 import CourseCard from './CourseCard';
-import { featuredCourses } from '../data/mock';
+import { useFeaturedCourses } from '../hooks/useCourses';
 
 const FeaturedCourses = () => {
+  const { courses, loading, error } = useFeaturedCourses();
+
   return (
     <section className="pad-2xl bg-[var(--bg-page)]" id="courses">
       <div className="container">
@@ -14,17 +16,33 @@ const FeaturedCourses = () => {
           </p>
         </div>
 
-        <div className="ai-grid">
-          {featuredCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
+        {loading && (
+          <div className="text-center py-12">
+            <div className="body-large text-[var(--text-secondary)]">Loading featured courses...</div>
+          </div>
+        )}
 
-        <div className="text-center mt-12">
-          <button className="btn-secondary">
-            View All Courses
-          </button>
-        </div>
+        {error && (
+          <div className="text-center py-12">
+            <div className="body-large text-red-500">Error: {error}</div>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <>
+            <div className="ai-grid">
+              {courses.map(course => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <button className="btn-secondary">
+                View All Courses
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
