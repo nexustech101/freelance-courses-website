@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Clock, Users, Star, BookOpen } from 'lucide-react';
 
 const CourseCard = ({ course }) => {
-  const discountPercentage = Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100);
+  const discountPercentage = Math.round(((course.original_price - course.price) / course.original_price) * 100);
 
   return (
     <div className="course-card">
@@ -34,13 +34,13 @@ const CourseCard = ({ course }) => {
           </div>
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            {course.students.toLocaleString()}
+            {course.total_students?.toLocaleString() || '0'}
           </div>
         </div>
 
         <div className="flex items-center gap-2 mb-4">
           <span className="text-sm text-[var(--text-muted)] line-through">
-            ${course.originalPrice}
+            ${course.original_price}
           </span>
           <span className="heading-3 text-[var(--accent-text)]">
             ${course.price}
@@ -53,7 +53,7 @@ const CourseCard = ({ course }) => {
         <div className="mb-4">
           <div className="body-small mb-2">What you'll learn:</div>
           <div className="flex flex-wrap gap-1">
-            {course.topics.slice(0, 3).map((topic, index) => (
+            {course.topics?.slice(0, 3).map((topic, index) => (
               <span 
                 key={index}
                 className="px-2 py-1 bg-[var(--bg-section)] text-[var(--text-secondary)] text-xs rounded"
@@ -61,7 +61,7 @@ const CourseCard = ({ course }) => {
                 {topic}
               </span>
             ))}
-            {course.topics.length > 3 && (
+            {course.topics?.length > 3 && (
               <span className="px-2 py-1 bg-[var(--bg-section)] text-[var(--text-secondary)] text-xs rounded">
                 +{course.topics.length - 3} more
               </span>
